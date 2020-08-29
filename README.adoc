@@ -27,4 +27,74 @@ In case you test this locally (with localhost)
 $ ./ansible-wrapper.sh -i /ansible_playbooks/playbooks/inventory.yaml -c local /ansible_playbooks/playbooks/a-playbook.yaml
 ----
 
+== Terraform
+
+Using the docker image `hashicorp/terraform:light` and mounting the local working directory as workspace into the container.
+Consider to provide always the directory which holds the terraform templates for all terraform commands (init, plan, apply).
+
+----
+$ ./terraform-wrapper.sh init templates
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/null...
+- Installing hashicorp/null v2.1.2...
+- Installed hashicorp/null v2.1.2 (signed by HashiCorp)
+
+...
+
+$ ./terraform-wrapper.sh plan templates
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to local or remote state storage.
+
+
+------------------------------------------------------------------------
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # null_resource.example will be created
+  + resource "null_resource" "example" {
+      + id = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+
+$ ./terraform-wrapper.sh apply templates
+n execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # null_resource.example will be created
+  + resource "null_resource" "example" {
+      + id = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+null_resource.example: Creating...
+null_resource.example: Provisioning with 'local-exec'...
+null_resource.example (local-exec): Executing: ["/bin/sh" "-c" "echo $(date -u +'%Y-%m-%dT%H:%M:%SZ')"]
+null_resource.example (local-exec): 2020-08-29T09:05:48Z
+null_resource.example: Creation complete after 0s [id=3249942302053403259]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+----
+
+
 .
