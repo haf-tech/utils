@@ -2,3 +2,29 @@
 :author: Hafid Haddouti
 
 This utility repository contains multiple apps and tools for surviving the daily madness.
+
+== Ansible
+
+The docker receives a mount from the local working directory to `/ansible_playbooks/` this is the reason to put `/ansible_playbooks/` as prefix path if you define any paths as parameters.
+
+----
+$ cd docker/ansible-wrapper
+$ tree -a
+..
+├── Dockerfile
+├── ansible-wrapper.sh
+└── playbooks
+    ├── a-playbook.yaml
+    └── inventory.yaml
+
+1 directory, 4 files
+$ ./ansible-wrapper.sh -i /ansible_playbooks/playbooks/inventory.yaml /ansible_playbooks/playbooks/a-playbook.yaml
+----
+
+In case you test this locally (with localhost)
+
+----
+$ ./ansible-wrapper.sh -i /ansible_playbooks/playbooks/inventory.yaml -c local /ansible_playbooks/playbooks/a-playbook.yaml
+----
+
+.

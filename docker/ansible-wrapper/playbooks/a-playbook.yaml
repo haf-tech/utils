@@ -1,0 +1,20 @@
+# Dummy playbook
+---
+
+- name: First Playbook
+  gather_facts: true
+  hosts: all
+  tasks:
+
+    - name: Display the config
+      debug:
+        msg: "The hostname is {{ ansible_hostname }}."
+
+    - name: Print out directory listing
+      shell: "ls -lrt"
+      register: "output"
+
+    - name: Display the listing
+      debug:
+        var: output.stdout_lines
+  
