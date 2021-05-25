@@ -9,9 +9,12 @@ build: docker_build output
 release: docker_build docker_push output
 
 # Image and binary can be overidden with env vars.
-DOCKER_IMAGE ?= hafbluebox/ansible-wrapper
-BINARY ?= ansible-wrapper
+DOCKER_IMAGE ?= hafbluebox/k8s-swiss
+BINARY ?= k8s-swiss
 ANSIBLE_VER ?= 2.10.7
+K8S_VER ?= 1.21.0
+HELM_VER ?= 3.5.4
+OC_VER ?= 4.5
 
 # Get the latest commit
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
@@ -38,6 +41,8 @@ docker_build: $(BINARY)
 	# Build Docker image
 	docker build \
   --build-arg ANSIBLE_VER=$(ANSIBLE_VER) \
+  --build-arg K8S_VER=$(K8S_VER) \
+  --build-arg OC_VER=$(OC_VER) \
   --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
   --build-arg VERSION=$(CODE_VERSION) \
   --build-arg VCS_URL=`git config --get remote.origin.url` \
