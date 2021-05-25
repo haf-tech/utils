@@ -11,6 +11,7 @@ release: docker_build docker_push output
 # Image and binary can be overidden with env vars.
 DOCKER_IMAGE ?= hafhub/ansible-wrapper
 BINARY ?= ansible-wrapper
+ANSIBLE_VER ?= 2.10.7
 
 # Get the latest commit
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
@@ -35,6 +36,7 @@ endif
 docker_build: $(BINARY)
 	# Build Docker image
 	docker build \
+  --build-arg ANSIBLE_VER=$(ANSIBLE_VER) \
   --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
   --build-arg VERSION=$(CODE_VERSION) \
   --build-arg VCS_URL=`git config --get remote.origin.url` \
