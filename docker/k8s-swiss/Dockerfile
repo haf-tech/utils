@@ -25,7 +25,7 @@ LABEL maintainer="code@haddouti.com" \
 
 
 # Bootstrap Ansible via pip
-RUN apt-get update && apt-get install -y python3-pip sshpass git openssh-client && \
+RUN apt-get update && apt-get install -y python3-pip sshpass git openssh-client curl && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
@@ -45,17 +45,18 @@ RUN apt-get autoremove -y && apt-get autoclean -y && apt-get clean -y && \
 # OpenShift CLI
 RUN curl -sLo /tmp/oc.tar.gz https://mirror.openshift.com/pub/openshift-v$(echo $OC_VER | cut -d'.' -f 1)/clients/oc/$OC_VER/linux/oc.tar.gz && \
     tar xzvf /tmp/oc.tar.gz -C /usr/local/bin/ && \
-    rm -rf /tmp/oc.tar.gz && \
+    rm -rf /tmp/oc.tar.gz
 
 # kubectl and hem
 RUN curl -sLo /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v${K8S_VER}/bin/linux/amd64/kubectl && \
     chmod +x /usr/local/bin/kubectl && \
-    curl -sL  https://get.helm.sh/helm-v${HELM_VER}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm && \
+    curl -sL https://get.helm.sh/helm-v${HELM_VER}-linux-amd64.tar.gz | tar -xzO linux-amd64/helm > /usr/local/bin/helm && \
     chmod +x /usr/local/bin/helm
 
 
 # Environment setup
 WORKDIR /ansible
 
-ENTRYPOINT ["ansible-playbook"]
+#ENTRYPOINT ["ansible-playbook"]
 
+CMD bash

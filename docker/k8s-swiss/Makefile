@@ -37,11 +37,12 @@ DOCKER_TAG_SUFFIX = "-dirty"
 endif
 
 
-docker_build: $(BINARY)
+docker_build: 
 	# Build Docker image
 	docker build \
   --build-arg ANSIBLE_VER=$(ANSIBLE_VER) \
   --build-arg K8S_VER=$(K8S_VER) \
+  --build-arg HELM_VER=$(HELM_VER) \
   --build-arg OC_VER=$(OC_VER) \
   --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
   --build-arg VERSION=$(CODE_VERSION) \

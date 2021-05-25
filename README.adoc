@@ -3,6 +3,14 @@
 
 This utility repository contains multiple apps and tools for surviving the daily madness.
 
+== k8s-swiss
+
+A docker image holding helpful tools like
+
+* Ansible
+* kubectl
+* oc
+
 == Ansible
 
 The docker receives a mount from the local working directory to `/ansible_playbooks/` this is the reason to put `/ansible_playbooks/` as prefix path if you define any paths as parameters.
